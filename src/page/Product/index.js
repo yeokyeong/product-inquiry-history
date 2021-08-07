@@ -1,6 +1,8 @@
 import React from "react";
 import "./index.scss";
-import data from "../../database";
+import data from "../Utils/database";
+import { getItemHistories, setItemHistories } from "../Utils/localStorage";
+import { isDataEqual } from "../Utils/dataValidation";
 
 // SessionStorage 또는 LocalStorage
 
@@ -29,41 +31,25 @@ export default class Product extends React.Component {
   };
 
   pushHistory = () => {
-    let itemHistories = window.localStorage.getItem("itemHistories");
-    if (itemHistories) {
-      try {
-        itemHistories = this.deleteIfExist(JSON.parse(itemHistories));
-      } catch (err) {
-        itemHistories = [];
-      }
-    } else {
-      itemHistories = [];
-    }
+    let itemHistories = getItemHistories();
+    itemHistories = this.deleteIfExist(itemHistories);
 
     itemHistories.push({
       item: this.state.selectedItem,
       expire: new Date().toString()
     });
 
-    window.localStorage.setItem("itemHistories", JSON.stringify(itemHistories));
+    setItemHistories(itemHistories);
   };
 
   deleteIfExist = (itemHistories) => {
     const idx = itemHistories.findIndex((obj) =>
-      this.isDataEqual(obj.item, this.state.selectedItem)
+      isDataEqual(obj.item, this.state.selectedItem)
     );
     if (idx > -1) {
       itemHistories.splice(idx, 1);
     }
     return itemHistories;
-  };
-
-  isDataEqual = (obj1 = {}, obj2 = {}) => {
-    return (
-      obj1.title === obj1.title &&
-      obj1.brand === obj2.brand &&
-      obj1.price === obj2.price
-    );
   };
 
   onClickRandom = () => {
@@ -73,7 +59,7 @@ export default class Product extends React.Component {
 
     if (isSelectedItemExist) {
       const idx = copiedProducts.findIndex((obj) =>
-        this.isDataEqual(obj, selectedItem)
+        isDataEqual(obj, selectedItem)
       );
       copiedProducts.splice(idx, 1);
     }
@@ -99,11 +85,7 @@ export default class Product extends React.Component {
         <div>
           {products.map((item, idx) => (
             <div key={idx}>
-              <ProductItem
-                item={item}
-                selectedItem={selectedItem}
-                isDataEqual={this.isDataEqual}
-              />
+              <ProductItem item={item} selectedItem={selectedItem} />
               <div onClick={() => this.onClickItem(item)}>상품 상세 보기</div>
             </div>
           ))}
@@ -117,7 +99,7 @@ class ProductItem extends React.Component {
     super(props);
   }
   render() {
-    const { item, selectedItem, isDataEqual } = this.props;
+    const { item, selectedItem } = this.props;
     const { title, brand, price } = item;
     // console.log(111, "item");
     return (
