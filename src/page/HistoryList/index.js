@@ -2,20 +2,27 @@ import React from "react";
 import "./index.scss";
 import { getItemHistories } from "../../Utils/localStorage";
 import ProductItem from "../../Components/Item";
-// **2. 상품 조회이력 목록 페이지 (/recentList)**
-
-// - 00시 기준으로 최근 조회이력 초기화 -> home || this page ?
-
-// - (선택 팝업) 정렬: 최근 조회 순, 낮은 가격 순
 // - 상품 클릭 시 '상품상세 페이지'로 이동
+const SORT = {
+  PRICE: "price",
+  RECENT: "recent"
+};
 export default class HistoryList extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { histories: [], filteredHistories: [], brands: {} };
+    this.state = {
+      histories: [],
+      filteredHistories: [],
+      brands: {},
+      selectedSort: SORT.RECENT
+    };
   }
   componentDidMount() {
     this.setState(
-      { histories: getItemHistories(), filteredHistories: getItemHistories() },
+      {
+        histories: getItemHistories().reverse(),
+        filteredHistories: getItemHistories().reverse()
+      },
       () => {
         this.setBrandList();
       }
@@ -53,8 +60,27 @@ export default class HistoryList extends React.PureComponent {
     });
     this.setState({ filteredHistories: filteredData });
   };
+
+  onClickSort = (selected) => {
+    this.setState({ selectedSort: selected }, () => this.sortData());
+  };
+  sortData = () => {
+    const { filteredHistories, selectedSort } = this.state;
+    let filteredData;
+
+    if (selectedSort === SORT.PRICE) {
+      filteredData = filteredHistories.sort((a, b) => {
+        return a.item.price - b.item.price;
+      });
+    } else {
+      filteredData = filteredHistories.sort((a, b) => {
+        return new Date(b.expire) - new Date(a.expire);
+      });
+    }
+    this.setState({ filteredHistories: [...filteredData] });
+  };
   render() {
-    const { brands, filteredHistories } = this.state;
+    const { brands, filteredHistories, selectedSort } = this.state;
     return (
       <div className="page page--history-list">
         <h3>history_list</h3>
@@ -68,13 +94,26 @@ export default class HistoryList extends React.PureComponent {
             </div>
           ))}
         <hr />
+        <div>sort by </div>
+        <div>
+          <div onClick={() => this.onClickSort(SORT.PRICE)}>
+            price {selectedSort === SORT.PRICE ? "o" : "x"}
+          </div>
+          <div onClick={() => this.onClickSort(SORT.RECENT)}>
+            recent {selectedSort === SORT.RECENT ? "o" : "x"}
+          </div>
+        </div>
+        <hr />
+
         {filteredHistories &&
-          filteredHistories.map((history, idx) => (
-            <div key={idx}>
-              <ProductItem item={history.item} />
-              <div>방문시간 :{history.expire}</div>
-            </div>
-          ))}
+          filteredHistories.map((history, idx) => {
+            return (
+              <div key={idx}>
+                <ProductItem item={history.item} />
+                <div>방문시간 :{history.expire}</div>
+              </div>
+            );
+          })}
       </div>
     );
   }
