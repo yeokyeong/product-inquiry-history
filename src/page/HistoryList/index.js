@@ -60,7 +60,9 @@ class HistoryList extends React.PureComponent {
     const filteredData = histories.filter((history) => {
       return filteredBrands.includes(history.item.brand);
     });
-    this.setState({ filteredHistories: filteredData });
+    this.setState({ filteredHistories: filteredData }, () => {
+      this.sortData();
+    });
   };
 
   onClickSort = (selected) => {
