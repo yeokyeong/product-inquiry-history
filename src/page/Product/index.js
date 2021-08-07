@@ -1,19 +1,9 @@
 import React from "react";
 import "./index.scss";
-import data from "../Utils/database";
-import { getItemHistories, setItemHistories } from "../Utils/localStorage";
-import { isDataEqual } from "../Utils/dataValidation";
-
-// SessionStorage 또는 LocalStorage
-
-// **2. 상품 조회이력 목록 페이지 (/recentList)**
-
-// - 00시 기준으로 최근 조회이력 초기화
-
-// - (목록 상단) 필터: '브랜드'(전체 및 조회이력에 존재하는 브랜드 목록으로 구성), 다중선택 가능
-// - (선택 팝업) 정렬: 최근 조회 순, 낮은 가격 순
-// - 상품 클릭 시 '상품상세 페이지'로 이동
-
+import data from "../../Utils/database";
+import { getItemHistories, setItemHistories } from "../../Utils/localStorage";
+import { isDataEqual } from "../../Utils/dataValidation";
+import ProductItem from "../../Components/Item";
 export default class Product extends React.Component {
   constructor(props) {
     super(props);
@@ -27,10 +17,10 @@ export default class Product extends React.Component {
     this.setState({ products: [...data] });
   };
   onClickItem = (item) => {
-    this.setState({ selectedItem: item }, () => this.pushHistory());
+    this.setState({ selectedItem: item }, () => this.addHistory());
   };
 
-  pushHistory = () => {
+  addHistory = () => {
     let itemHistories = getItemHistories();
     itemHistories = this.deleteIfExist(itemHistories);
 
@@ -90,27 +80,6 @@ export default class Product extends React.Component {
             </div>
           ))}
         </div>
-      </div>
-    );
-  }
-}
-class ProductItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const { item, selectedItem } = this.props;
-    const { title, brand, price } = item;
-    // console.log(111, "item");
-    return (
-      <div
-        className={`product-item product-item__selected--${
-          isDataEqual(selectedItem, item) ? "on" : "off"
-        }`}
-      >
-        <div>{title}</div>
-        <div>{brand}</div>
-        <div>{price}</div>
       </div>
     );
   }
