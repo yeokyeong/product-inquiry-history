@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.scss";
+import { Container, Button } from "@material-ui/core";
 import { getItemHistories } from "../../Utils/localStorage";
 import ProductItem from "../../Components/Item";
 import { Link } from "react-router-dom";
@@ -80,44 +81,82 @@ class HistoryList extends React.PureComponent {
     }
     this.setState({ filteredHistories: [...filteredData] });
   };
-
+  formatdate = (date) => {
+    const expire = new Date(date);
+    return `${expire.getFullYear()}-${
+      expire.getMonth() + 1
+    }-${expire.getDate()} ${
+      expire.getHours() < 10 ? `0${expire.getHours()}` : expire.getHours()
+    }:${
+      expire.getMinutes() < 10 ? `0${expire.getMinutes()}` : expire.getMinutes()
+    }:${
+      expire.getSeconds() < 10 ? `0${expire.getSeconds()}` : expire.getSeconds()
+    }`;
+  };
   render() {
     const { brands, filteredHistories, selectedSort } = this.state;
     return (
-      <div className="page page--history-list">
-        <h3>history_list</h3>
-        <Link to="/">home</Link>
-        <div>brand</div>
-        {brands &&
-          Object.keys(brands).map((key, idx) => (
-            <div key={idx}>
-              <div onClick={() => this.onClickBrand(key)}>
-                {key} {brands[key] ? "o" : "x"}
-              </div>
-            </div>
-          ))}
-        <hr />
-        <div>sort by </div>
-        <div>
-          <div onClick={() => this.onClickSort(SORT.PRICE)}>
-            price {selectedSort === SORT.PRICE ? "o" : "x"}
+      <Container maxWidth="md" className="page page--history-list">
+        <div className="page__header">
+          <h3>상품이력페이지</h3>
+          <Button variant="contained" color="primary">
+            <Link to="/">home</Link>
+          </Button>
+        </div>
+        <div className="options">
+          <span>brand</span>
+          <div className="options__list">
+            {brands &&
+              Object.keys(brands).map((key, idx) => (
+                <div
+                  className={`option__item option__item--${
+                    brands[key] ? "on" : "off"
+                  }`}
+                  key={idx}
+                >
+                  <div onClick={() => this.onClickBrand(key)}>{key}</div>
+                </div>
+              ))}
           </div>
-          <div onClick={() => this.onClickSort(SORT.RECENT)}>
-            recent {selectedSort === SORT.RECENT ? "o" : "x"}
+        </div>
+
+        <hr />
+        <div className="options">
+          <span>sort by </span>
+          <div className="options__list">
+            <div
+              className={`option__item option__item--${
+                selectedSort === SORT.PRICE ? "on" : "off"
+              }`}
+              onClick={() => this.onClickSort(SORT.PRICE)}
+            >
+              price
+            </div>
+            <div
+              className={`option__item option__item--${
+                selectedSort === SORT.RECENT ? "on" : "off"
+              }`}
+              onClick={() => this.onClickSort(SORT.RECENT)}
+            >
+              recent
+            </div>
           </div>
         </div>
         <hr />
-
-        {filteredHistories &&
-          filteredHistories.map((history, idx) => {
-            return (
-              <div key={idx}>
-                <ProductItem item={history.item} />
-                <div>방문시간 :{history.expire}</div>
-              </div>
-            );
-          })}
-      </div>
+        <div className="product--list">
+          {filteredHistories &&
+            filteredHistories.map((history, idx) => {
+              return (
+                <div className="product--wrapper" key={idx}>
+                  <ProductItem item={history.item} />
+                  <span className="product__expire">
+                    방문시간:{this.formatdate(history.expire)}
+                  </span>
+                </div>
+              );
+            })}
+        </div>
+      </Container>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.scss";
+import { Container, Button } from "@material-ui/core";
 import data from "../../Utils/database";
 import { getItemHistories, setItemHistories } from "../../Utils/localStorage";
 import { isDataEqual } from "../../Utils/dataValidation";
@@ -76,16 +77,37 @@ class Product extends React.Component {
   render() {
     const { product } = this.state;
     return (
-      <div className="page page--product-list">
-        <Link to="/">home</Link>
-        <Link to="/recentList">상품이력페이지</Link>
+      <Container maxWidth="md" className="page page--product-list">
+        <div className="page__header">
+          <h3>상품상세페이지</h3>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              className="header__button"
+            >
+              <Link to="/">home</Link>
+            </Button>
 
-        <h3>상품상세</h3>
-        <button onClick={this.onClickRandom}>랜덤 상품 보기</button>
-        <div>
-          <ProductItem item={product} />
+            <Button variant="contained" color="primary">
+              <Link to="/recentList">상품이력페이지</Link>
+            </Button>
+          </div>
         </div>
-      </div>
+
+        <Button
+          variant="contained"
+          color="default"
+          onClick={this.onClickRandom}
+        >
+          랜덤 상품 보기
+        </Button>
+        <div className="product--detail">
+          <div className="prodct__text title">{product.title}</div>
+          <div className="prodct__text brand">{product.brand}</div>
+          <div className="prodct__text price">{product.price}</div>
+        </div>
+      </Container>
     );
   }
 }

@@ -1,3 +1,31 @@
 .page--history-list {
-  border: 1px solid rebeccapurple;
+  .options {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 13px;
+  }
+  .options__list {
+    display: flex;
+    font-weight: normal;
+  }
+  .option__item {
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 3px;
+    padding: 3px;
+  }
+  .option__item--on {
+    background-color: #e5e8fa;
+  }
+  .product--wrapper {
+    position: relative;
+  }
+  .product__expire {
+    color: gray;
+    font-size: 10px;
+    position: absolute;
+    bottom: 0px;
+    margin-left: 15px;
+  }
 }

@@ -1,7 +1,34 @@
-.product-item {
-  margin: 30px;
+.product--list {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.product-item__selected--on {
-  background-color: gray;
+.product-item {
+  margin: 15px;
+  width: 250px;
+  height: 160px;
+  background-color: #e5e8fa;
+  display: flex;
+}
+.product-item__inner {
+  width: 100%;
+  margin: 10px;
+  position: relative;
+}
+.item__text {
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+.item__text--title {
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 9px;
+}
+
+.item__button {
+  width: 100%;
+  position: absolute !important;
+  bottom: 0px;
 }

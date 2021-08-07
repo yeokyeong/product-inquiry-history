@@ -1,2 +1,23 @@
 .page--product-list {
+  .header__button {
+    margin-right: 10px;
+  }
+  .product--detail {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 30px;
+    background-color: #e5e8fa;
+    padding: 30px;
+    border-radius: 8px;
+  }
+  .prodct__text {
+    text-align: center;
+    font-size: 17px;
+    margin-bottom: 3px;
+  }
+  .prodct__text.title {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 5px;
+  }
 }
