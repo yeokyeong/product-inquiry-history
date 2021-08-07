@@ -2,6 +2,8 @@ import React from "react";
 import "./index.scss";
 import { getItemHistories } from "../../Utils/localStorage";
 import ProductItem from "../../Components/Item";
+import { Link } from "react-router-dom";
+
 // - 상품 클릭 시 '상품상세 페이지'로 이동
 const SORT = {
   PRICE: "price",
@@ -84,6 +86,7 @@ export default class HistoryList extends React.PureComponent {
     return (
       <div className="page page--history-list">
         <h3>history_list</h3>
+        <Link to="/">home</Link>
         <div>brand</div>
         {brands &&
           Object.keys(brands).map((key, idx) => (
