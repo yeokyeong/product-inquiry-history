@@ -8,7 +8,7 @@ import ProductItem from "../../Components/Item";
 export default class Home extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { products: [], selectedItem: {} };
+    this.state = { products: [] };
   }
   componentDidMount() {
     this.resetItemHistories();
@@ -19,7 +19,7 @@ export default class Home extends React.PureComponent {
     this.setState({ products: [...data] });
   };
   onClickItem = (item) => {
-    this.setState({ selectedItem: item }, () => this.addHistory());
+    this.setState({ selectedItem: item }, () => this.addHistory(item));
   };
 
   addHistory = () => {
@@ -79,7 +79,7 @@ export default class Home extends React.PureComponent {
   }
 
   render() {
-    const { products, selectedItem } = this.state;
+    const { products } = this.state;
 
     return (
       <div className="page page--home">
@@ -90,7 +90,7 @@ export default class Home extends React.PureComponent {
           <div>
             {products.map((item, idx) => (
               <div key={idx}>
-                <ProductItem item={item} selectedItem={selectedItem} />
+                <ProductItem item={item} />
                 <div onClick={() => this.onClickItem(item)}>상품 상세 보기</div>
               </div>
             ))}
