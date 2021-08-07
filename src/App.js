@@ -1,6 +1,6 @@
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import ProductList from "./page/ProductList";
+import Product from "./page/Product";
 import HistoryList from "./page/HistoryList";
 import Home from "./page/Home";
 function App() {
@@ -12,7 +12,7 @@ function App() {
             <Home />
           </Route>
           <Route exact path="/product">
-            <ProductList />
+            <Product />
           </Route>
           <Route exact path="/recentList">
             <HistoryList />
