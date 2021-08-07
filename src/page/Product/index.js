@@ -4,7 +4,6 @@ import { Container, Button } from "@material-ui/core";
 import data from "../../Utils/database";
 import { getItemHistories, setItemHistories } from "../../Utils/localStorage";
 import { isDataEqual } from "../../Utils/dataValidation";
-import ProductItem from "../../Components/Item";
 import { withRouter, Link } from "react-router-dom";
 
 class Product extends React.Component {
