@@ -1,3 +1,9 @@
-.page--product_list {
-  border: 1px solid rebeccapurple;
+.page--product-list {
+  .product-item {
+    border: 1px solid rebeccapurple;
+    cursor: pointer;
+  }
+  .product-item__selected--on {
+    background-color: gray;
+  }
 }
