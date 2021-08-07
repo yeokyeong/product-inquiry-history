@@ -4,12 +4,11 @@ import { getItemHistories } from "../../Utils/localStorage";
 import ProductItem from "../../Components/Item";
 import { Link } from "react-router-dom";
 
-// - 상품 클릭 시 '상품상세 페이지'로 이동
 const SORT = {
   PRICE: "price",
   RECENT: "recent"
 };
-export default class HistoryList extends React.PureComponent {
+class HistoryList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +80,7 @@ export default class HistoryList extends React.PureComponent {
     }
     this.setState({ filteredHistories: [...filteredData] });
   };
+
   render() {
     const { brands, filteredHistories, selectedSort } = this.state;
     return (
@@ -121,3 +121,5 @@ export default class HistoryList extends React.PureComponent {
     );
   }
 }
+
+export default HistoryList;
